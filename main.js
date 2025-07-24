@@ -11,52 +11,8 @@ const os = require('os');
 let mainWindow;
 let tray;
 
-// Função para criar atalhos automaticamente
-function createShortcuts() {
-  if (process.platform !== 'win32') return;
-  
-  try {
-    // Verifica se os atalhos já existem
-    const desktopPath = path.join(os.homedir(), 'Desktop');
-    const desktopShortcut = path.join(desktopPath, 'Google Keep Desktop.lnk');
-    
-    const startMenuPath = path.join(os.homedir(), 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs');
-    const startMenuShortcut = path.join(startMenuPath, 'Google Keep Desktop.lnk');
-    
-    // Se já existem, não faz nada
-    if (fs.existsSync(desktopShortcut) && fs.existsSync(startMenuShortcut)) {
-      return;
-    }
-    
-    // Detecta se está executando da instalação
-    const updateExe = path.join(path.dirname(process.execPath), '..', 'Update.exe');
-    const isInstalled = fs.existsSync(updateExe);
-    
-    if (isInstalled) {
-      const appName = path.basename(process.execPath);
-      
-      // Cria um arquivo batch temporário para executar o Update.exe com flags específicos
-      const tempBat = path.join(os.tmpdir(), 'create_shortcuts.bat');
-      const batContent = `@echo off
-"${updateExe}" --createShortcut="${appName}" --shortcut-locations=Desktop,StartMenu
-del "%~f0"`;
-      
-      fs.writeFileSync(tempBat, batContent);
-      
-      // Executa o arquivo batch
-      const { exec } = require('child_process');
-      exec(`"${tempBat}"`, (error, stdout, stderr) => {
-        if (error) {
-          console.log('Erro ao criar atalhos:', error);
-        } else {
-          console.log('Atalhos criados automaticamente');
-        }
-      });
-    }
-  } catch (error) {
-    console.log('Erro ao criar atalhos:', error);
-  }
-}
+// Função removida para evitar conflito com configurações do Squirrel
+// A criação de atalhos agora é controlada inteiramente pelo forge.config.js
 
 function createWindow() {
   // Cria a janela do navegador.
@@ -151,8 +107,7 @@ app.whenReady().then(() => {
   createWindow();
   createTray();
   
-  // Cria os atalhos automaticamente na primeira execução
-  createShortcuts();
+  // Criação de atalhos removida - agora controlada pelo Squirrel via forge.config.js
 
   // Gerencia o comportamento no macOS
   app.on('activate', function () {

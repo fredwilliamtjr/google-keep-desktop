@@ -23,13 +23,10 @@ module.exports = {
         noMsi: true,
         remoteReleases: false,
         createDesktopShortcut: true,
-        createStartMenuShortcut: true,
+        createStartMenuShortcut: false,
         shortcutName: 'Google Keep Desktop',
         exe: 'google-keep-desktop.exe',
-        skipUpdateIcon: false,
-        // Configuração para controlar a pasta no menu iniciar
-        authors: 'Google Keep Desktop',
-        owners: 'Google Keep Desktop'
+        skipUpdateIcon: false
       },
     },
     {

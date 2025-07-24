@@ -6,8 +6,7 @@
   "main": "main.js",
   "homepage": "https://github.com/fredwilliamtjr/google-keep-desktop",
   "author": {
-    "name": "Fred William Torno Junior",
-    "email": "fredwilliam@gmail.com"
+    "name": "Google Keep Desktop"
   },
   "scripts": {
     "start": "electron-forge start",
