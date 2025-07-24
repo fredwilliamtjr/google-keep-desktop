@@ -5,9 +5,14 @@
   "description": "Um cliente desktop para o Google Keep - Acesse suas notas do Google Keep diretamente do desktop",
   "main": "main.js",
   "homepage": "https://github.com/fredwilliamtjr/google-keep-desktop",
-  "author": {
-    "name": "Google Keep Desktop"
-  },
+  "author": "Google Keep Desktop",
+  "authors": [
+    {
+      "name": "Fred William Torno Junior",
+      "email": "fredwilliamtjr@gmail.com",
+      "url": "https://github.com/fredwilliamtjr"
+    }
+  ],
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",

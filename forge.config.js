@@ -23,7 +23,7 @@ module.exports = {
         noMsi: true,
         remoteReleases: false,
         createDesktopShortcut: true,
-        createStartMenuShortcut: false,
+        createStartMenuShortcut: true,
         shortcutName: 'Google Keep Desktop',
         exe: 'google-keep-desktop.exe',
         skipUpdateIcon: false
