@@ -36,6 +36,14 @@ function createWindow() {
   // Opcional: Remove o menu padrão do Electron (Arquivo, Editar, etc.)
   mainWindow.setMenu(null);
 
+  // Adiciona atalho de teclado para recarregar (F5 ou Ctrl+R)
+  mainWindow.webContents.on('before-input-event', (event, input) => {
+    if (input.key === 'F5' || (input.control && input.key === 'r')) {
+      event.preventDefault();
+      mainWindow.webContents.reload();
+    }
+  });
+
   // Quando a janela for minimizada, esconde ela em vez de minimizar
   mainWindow.on('minimize', function(event){
     event.preventDefault();
@@ -71,6 +79,17 @@ function createTray() {
       label: 'Esconder',
       click: function(){
         mainWindow.hide();
+      }
+    },
+    {
+      type: 'separator'
+    },
+    {
+      label: 'Recarregar',
+      click: function(){
+        if (mainWindow && !mainWindow.isDestroyed()) {
+          mainWindow.webContents.reload();
+        }
       }
     },
     {
