@@ -23,7 +23,7 @@
 		{
 			"label": "Limpar e Gerar Executável",
 			"type": "shell",
-			"command": "Remove-Item -Path \"out\" -Recurse -Force -ErrorAction SilentlyContinue; npm run make",
+			"command": "rm -rf out && npm run make",
 			"group": "build",
 			"isBackground": false,
 			"problemMatcher": [],
@@ -34,6 +34,12 @@
 				"panel": "shared",
 				"showReuseMessage": true,
 				"clear": false
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"windows": {
+				"command": "powershell -NoProfile -ExecutionPolicy Bypass -Command Remove-Item -Path 'out' -Recurse -Force -ErrorAction SilentlyContinue; npm run make"
 			}
 		}
 	]

@@ -2,7 +2,7 @@
 if (require('electron-squirrel-startup')) return;
 
 // Importa os módulos necessários do Electron
-const { app, BrowserWindow, Tray, Menu, shell } = require('electron');
+const { app, BrowserWindow, Tray, Menu, shell, nativeImage } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
@@ -65,7 +65,13 @@ function createWindow() {
 
 function createTray() {
   // Cria o ícone na área de notificação
-  tray = new Tray(path.join(__dirname, 'icon.png'));
+  const iconPath = path.join(__dirname, 'icon.png');
+  let trayImage = nativeImage.createFromPath(iconPath);
+  if (process.platform === 'darwin') {
+    // Ajusta o tamanho típico de ícones da barra de menus no macOS mantendo cores
+    trayImage = trayImage.resize({ width: 16, height: 16 });
+  }
+  tray = new Tray(trayImage);
   
   // Define o menu de contexto do tray
   const contextMenu = Menu.buildFromTemplate([
