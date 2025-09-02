@@ -66,10 +66,18 @@ function createWindow() {
 function createTray() {
   // Cria o ícone na área de notificação
   const iconPath = path.join(__dirname, 'icon.png');
+  const macTemplatePath = path.join(__dirname, 'icon-tray-macTemplate.png');
   let trayImage = nativeImage.createFromPath(iconPath);
+
   if (process.platform === 'darwin') {
-    // Ajusta o tamanho típico de ícones da barra de menus no macOS mantendo cores
-    trayImage = trayImage.resize({ width: 16, height: 16 });
+    // Se existir um PNG específico para template (monocromático com fundo transparente), usa-o
+    if (fs.existsSync(macTemplatePath)) {
+      trayImage = nativeImage.createFromPath(macTemplatePath).resize({ width: 16, height: 16 });
+      trayImage.setTemplateImage(true);
+    } else {
+      // Fallback: usa o ícone colorido menor sem template para evitar fundo branco
+      trayImage = trayImage.resize({ width: 16, height: 16 });
+    }
   }
   tray = new Tray(trayImage);
   
