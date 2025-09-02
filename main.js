@@ -66,13 +66,16 @@ function createWindow() {
 function createTray() {
   // Cria o ícone na área de notificação
   const defaultIconPath = path.join(__dirname, 'icon.png');
-  const macColorIconPath = path.join(__dirname, 'icon-macos.jpg');
+  const macColorIconPathPt = path.join(__dirname, 'icone-macos.jpg');
+  const macColorIconPathEn = path.join(__dirname, 'icon-macos.jpg');
   let trayImage = nativeImage.createFromPath(defaultIconPath);
 
   if (process.platform === 'darwin') {
-    // Usa um ícone específico para macOS se existir; caso contrário, reduz o padrão
-    if (fs.existsSync(macColorIconPath)) {
-      trayImage = nativeImage.createFromPath(macColorIconPath);
+    // Preferir 'icone-macos.jpg' (PT), depois 'icon-macos.jpg' (EN), senão usar padrão
+    if (fs.existsSync(macColorIconPathPt)) {
+      trayImage = nativeImage.createFromPath(macColorIconPathPt);
+    } else if (fs.existsSync(macColorIconPathEn)) {
+      trayImage = nativeImage.createFromPath(macColorIconPathEn);
     }
     trayImage = trayImage.resize({ width: 16, height: 16 });
   }
