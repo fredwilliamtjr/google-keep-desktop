@@ -188,6 +188,49 @@ app.on('activate', function () {
   }
 });
 
+// Handler específico para quando o macOS tenta encerrar o app
+app.on('before-quit', function (event) {
+  // Se não for um quit programático, permite o encerramento do sistema
+  if (!app.isQuiting) {
+    app.isQuiting = true;
+    
+    // Limpa recursos imediatamente
+    if (tray) {
+      tray.destroy();
+      tray = null;
+    }
+    
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.destroy();
+      mainWindow = null;
+    }
+    
+    // Força encerramento do processo
+    process.exit(0);
+  }
+});
+
+// Handler mais agressivo para garantir encerramento no macOS
+app.on('quit', function () {
+  app.isQuiting = true;
+  
+  // Força destruição de todos os recursos
+  if (tray) {
+    tray.destroy();
+    tray = null;
+  }
+  
+  if (mainWindow && !mainWindow.isDestroyed()) {
+    mainWindow.destroy();
+    mainWindow = null;
+  }
+  
+  // Força encerramento do processo após um delay
+  setTimeout(() => {
+    process.exit(0);
+  }, 100);
+});
+
 // Garante que o tray seja limpo ao sair
 process.on('exit', function () {
   if (tray) {
@@ -198,10 +241,29 @@ process.on('exit', function () {
 // Handler para sinais do sistema (Ctrl+C, etc.)
 process.on('SIGINT', function () {
   app.isQuiting = true;
-  app.quit();
+  if (tray) tray.destroy();
+  if (mainWindow && !mainWindow.isDestroyed()) mainWindow.destroy();
+  process.exit(0);
 });
 
 process.on('SIGTERM', function () {
   app.isQuiting = true;
-  app.quit();
+  if (tray) tray.destroy();
+  if (mainWindow && !mainWindow.isDestroyed()) mainWindow.destroy();
+  process.exit(0);
+});
+
+// Handler adicional para forçar encerramento se necessário
+process.on('uncaughtException', function (error) {
+  console.error('Uncaught Exception:', error);
+  if (tray) tray.destroy();
+  if (mainWindow && !mainWindow.isDestroyed()) mainWindow.destroy();
+  process.exit(1);
+});
+
+process.on('unhandledRejection', function (reason, promise) {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  if (tray) tray.destroy();
+  if (mainWindow && !mainWindow.isDestroyed()) mainWindow.destroy();
+  process.exit(1);
 });
