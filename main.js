@@ -153,6 +153,55 @@ app.on('window-all-closed', function () {
   // No Windows, o aplicativo continuará rodando no tray mesmo com todas as janelas fechadas
   // Para sair completamente, use o menu do tray
   if (process.platform === 'darwin') {
+    // No macOS, não fecha automaticamente - deixa o usuário controlar via tray
+    // app.quit();
+  }
+});
+
+// Adiciona handlers para garantir que o processo seja encerrado corretamente no macOS
+app.on('before-quit', function () {
+  app.isQuiting = true;
+  if (tray) {
+    tray.destroy();
+  }
+  if (mainWindow && !mainWindow.isDestroyed()) {
+    mainWindow.destroy();
+  }
+});
+
+app.on('will-quit', function () {
+  // Força o encerramento de qualquer processo restante
+  process.exit(0);
+});
+
+// Handler para quando o usuário tenta fechar o app via Cmd+Q no macOS
+app.on('window-all-closed', function () {
+  if (process.platform !== 'darwin') {
     app.quit();
   }
+});
+
+// Adiciona handler para o menu do macOS (Cmd+Q)
+app.on('activate', function () {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow();
+  }
+});
+
+// Garante que o tray seja limpo ao sair
+process.on('exit', function () {
+  if (tray) {
+    tray.destroy();
+  }
+});
+
+// Handler para sinais do sistema (Ctrl+C, etc.)
+process.on('SIGINT', function () {
+  app.isQuiting = true;
+  app.quit();
+});
+
+process.on('SIGTERM', function () {
+  app.isQuiting = true;
+  app.quit();
 });
