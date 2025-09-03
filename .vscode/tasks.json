@@ -4,7 +4,7 @@
 		{
 			"label": "Executar Electron (Dev)",
 			"type": "shell",
-			"command": "npm start",
+			"command": "if [ ! -d 'node_modules' ]; then echo 'Instalando dependências...' && npm install; fi && npm start",
 			"group": "build",
 			"isBackground": true,
 			"problemMatcher": [],
@@ -18,6 +18,9 @@
 			},
 			"options": {
 				"cwd": "${workspaceFolder}"
+			},
+			"windows": {
+				"command": "if (!(Test-Path 'node_modules')) { Write-Host 'Instalando dependências...'; npm install } npm start"
 			}
 		},
 		{

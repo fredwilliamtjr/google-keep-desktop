@@ -15,13 +15,15 @@ let tray;
 // A criação de atalhos agora é controlada inteiramente pelo forge.config.js
 
 function createWindow() {
+  // Define o ícone baseado na plataforma
+  const iconPath = path.join(__dirname, 'icon.png');
+
   // Cria a janela do navegador.
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
-    // Define um ícone para a janela (opcional, mas recomendado)
-    // Crie um arquivo 'icon.png' na raiz do projeto
-    icon: path.join(__dirname, 'icon.png'),
+    // Define um ícone para a janela baseado na plataforma
+    icon: iconPath,
     // Remove o ícone da barra de tarefas - fica apenas no tray
     skipTaskbar: true,
     webPreferences: {
@@ -35,6 +37,15 @@ function createWindow() {
 
   // Opcional: Remove o menu padrão do Electron (Arquivo, Editar, etc.)
   mainWindow.setMenu(null);
+
+  // Configura o ícone do app no dock do macOS (usando PNG por enquanto)
+  if (process.platform === 'darwin') {
+    try {
+      app.dock.setIcon(path.join(__dirname, 'icon.png'));
+    } catch (error) {
+      console.log('Erro ao definir ícone do dock:', error.message);
+    }
+  }
 
   // Adiciona atalho de teclado para recarregar (F5 ou Ctrl+R)
   mainWindow.webContents.on('before-input-event', (event, input) => {

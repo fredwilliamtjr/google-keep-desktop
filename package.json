@@ -5,6 +5,9 @@
   "description": "Um cliente desktop para o Google Keep - Acesse suas notas do Google Keep diretamente do desktop",
   "main": "main.js",
   "homepage": "https://github.com/fredwilliamtjr/google-keep-desktop",
+  "mac": {
+    "icon": "icon.icns"
+  },
   "author": "Google Keep Desktop",
   "authors": [
     {
