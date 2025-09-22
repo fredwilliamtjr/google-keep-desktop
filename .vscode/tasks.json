@@ -4,7 +4,7 @@
 		{
 			"label": "Executar Electron (Dev)",
 			"type": "shell",
-			"command": "if [ ! -d 'node_modules' ]; then echo 'Instalando dependências...' && npm install; fi && npm start",
+			"command": "source ~/.zshrc && if [ ! -d 'node_modules' ]; then echo 'Instalando dependências...' && npm install; fi && npm start",
 			"group": "build",
 			"isBackground": true,
 			"problemMatcher": [],
@@ -26,7 +26,7 @@
 		{
 			"label": "Limpar e Gerar Executável",
 			"type": "shell",
-			"command": "rm -rf out && if [[ \"$OSTYPE\" == \"darwin\"* ]]; then npm run make -- --platform=darwin --arch=x64,arm64; else npm run make; fi",
+			"command": "source ~/.zshrc && rm -rf out && npm run make",
 			"group": "build",
 			"isBackground": false,
 			"problemMatcher": [],

@@ -19,7 +19,7 @@
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "if [[ \"$OSTYPE\" == \"darwin\"* ]]; then electron-forge make --platform=darwin --arch=x64,arm64; else electron-forge make; fi"
   },
   "keywords": [
     "google-keep",
