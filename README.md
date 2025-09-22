@@ -124,3 +124,8 @@ Google Keep é uma marca do Google LLC. Este projeto é não-oficial e apenas fo
 ## 📄 Licença
 
 Distribuído sob a licença MIT. Veja `LICENSE` para mais informações.
+
+
+
+
+
