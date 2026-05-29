@@ -32,10 +32,7 @@ module.exports = {
     {
       name: '@electron-forge/maker-zip',
       platforms: ['darwin'],
-      config: {
-        // Configuração para binário universal no macOS
-        arch: ['x64', 'arm64'],
-      },
+      config: {},
     },
     {
       name: '@electron-forge/maker-deb',

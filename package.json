@@ -19,7 +19,8 @@
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
-    "make": "if [[ \"$OSTYPE\" == \"darwin\"* ]]; then electron-forge make --platform=darwin --arch=x64,arm64; else electron-forge make; fi"
+    "make": "if [[ \"$OSTYPE\" == \"darwin\"* ]]; then node scripts/build-mac-universal.mjs; else electron-forge make; fi",
+    "make:mac-universal": "node scripts/build-mac-universal.mjs"
   },
   "keywords": [
     "google-keep",
