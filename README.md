@@ -48,10 +48,16 @@ Google Keep Desktop empacota o `keep.google.com` numa janela Electron dedicada q
 Baixe o instalador da sua plataforma na página de [Releases](https://github.com/fredwilliamtjr/google-keep-desktop/releases):
 
 - **Windows** — rode o `Google Keep Desktop Setup.exe` (cria atalhos na área de trabalho e no menu Iniciar)
-- **macOS** — descompacte o `.zip` e arraste o `Google Keep Desktop.app` pra pasta **Applications**
+- **macOS** — descompacte o `.zip` e **arraste o `Google Keep Desktop.app` pra pasta Aplicativos** (build universal: roda nativo em Intel e Apple Silicon)
 - **Linux** — instale o `.deb` (`sudo dpkg -i ...`) ou o `.rpm` (`sudo rpm -i ...`)
 
-> No macOS, na primeira abertura clique com **botão direito → Abrir** caso o Gatekeeper reclame (o app não é assinado com Developer ID).
+> **macOS — liberar o app na primeira abertura.** Como o app não é notarizado pela Apple, ao baixá-lo da internet o macOS bloqueia com a mensagem *"não foi possível verificar se está livre de malware"*. Depois de mover o app para a pasta **Aplicativos**, rode no Terminal:
+>
+> ```bash
+> xattr -dr com.apple.quarantine "/Applications/Google Keep Desktop.app"
+> ```
+>
+> Pronto — agora é só abrir normalmente (duplo clique). Alternativa pela interface: **Ajustes do Sistema → Privacidade e Segurança → Abrir Mesmo Assim**.
 
 ## ⚙️ Como usar
 
