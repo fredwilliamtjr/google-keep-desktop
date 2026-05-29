@@ -1,131 +1,156 @@
 <div align="center">
+  <img src="icon.png" width="160" alt="Google Keep Desktop icon">
 
-<img src="banner.png" alt="Google Keep Desktop" width="720" />
+  <h1>Google Keep Desktop</h1>
 
-# Google Keep Desktop
+  <p><strong>O Google Keep numa janela de verdade, fora do navegador.</strong></p>
+  <p>Um app de desktop multiplataforma que vive na barra/bandeja do sistema — clique e suas notas aparecem, clique de novo e somem.</p>
 
-Traga o Google Keep para a sua área de trabalho com uma experiência nativa usando Electron.
-
-[![Made with Electron](https://img.shields.io/badge/Made%20with-Electron-2e3137?logo=electron&logoColor=9feaf9)](https://www.electronjs.org/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
-[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Windows-blue)](#)
-
+  <p>
+    <img src="https://img.shields.io/badge/Electron-25-2e3137?style=flat-square&logo=electron&logoColor=9feaf9" alt="Electron 25">
+    <img src="https://img.shields.io/badge/Node-18%2B-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node 18+">
+    <img src="https://img.shields.io/badge/macOS%20%7C%20Windows%20%7C%20Linux-555555?style=flat-square" alt="macOS, Windows, Linux">
+    <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="MIT">
+    <img src="https://img.shields.io/badge/status-alpha-orange?style=flat-square" alt="alpha">
+  </p>
 </div>
 
 ---
 
-## ✨ Recursos
-
-- **Ícone na barra do sistema (Tray)**: acesso rápido para mostrar/ocultar
-- **Login compatível**: User-Agent de navegador real para evitar bloqueios
-- **Atalhos rápidos**: F5 / Ctrl+R para recarregar
-- **Build simples**: instaladores com Electron Forge
-- **Multi-plataforma**: macOS e Windows
-
-> Observação: Este app é um wrapper do site oficial do Google Keep (`https://keep.google.com`).
+<p align="center">
+  <img src="background.png" width="720" alt="Google Keep Desktop">
+</p>
 
 ---
 
-## 📦 Pré-requisitos
+## 🧭 O problema
 
-- Node.js 18+ (recomendado via Homebrew no macOS)
-- npm 9+ (vem com o Node)
+O Google Keep só existe como aba de navegador. Toda vez que você quer anotar algo rápido, precisa achar a aba perdida entre dezenas de outras, ou abrir o navegador do zero. Não tem ícone próprio na bandeja, some quando você fecha o navegador, e disputa memória e atenção com tudo o que está aberto junto. Pra uma ferramenta que serve justamente pra capturar ideias no susto, isso é fricção demais.
 
-macOS (Homebrew):
+## ✨ A solução
 
-```bash
-brew install node
+Google Keep Desktop empacota o `keep.google.com` numa janela Electron dedicada que mora na **bandeja do sistema** (tray no Windows/Linux, barra de menus no macOS). Um clique no ícone mostra ou esconde as notas — sem caçar aba, sem abrir navegador. Fechar ou minimizar não mata o app: ele recolhe pra bandeja e continua a um clique de distância. Por baixo é o Keep oficial de verdade, com seu login e sincronização normais.
+
+## 🎯 Features
+
+- 🗂️ **Ícone na bandeja do sistema** — clique pra mostrar/esconder a janela das notas
+- 🪟 **Janela dedicada** — 1200×800, sem menu nativo do Electron poluindo a tela
+- 🙈 **Esconde em vez de fechar** — fechar ou minimizar recolhe pra bandeja, o app segue rodando
+- 🔑 **Login que funciona** — User-Agent de Chrome real pra o login do Google não barrar a janela
+- 🔄 **Recarregar rápido** — `F5` ou `Ctrl+R`, ou pelo menu da bandeja
+- 🚫 **Sem ícone na barra de tarefas** — vive só na bandeja (`skipTaskbar`)
+- 📦 **Instaladores nativos** — Squirrel (Windows), ZIP universal (macOS x64+arm64), `.deb` e `.rpm` (Linux) via Electron Forge
+
+> **Observação:** este app é um wrapper do site oficial do Google Keep (`https://keep.google.com`). Não há reimplementação das notas — é o Keep de verdade dentro de uma janela própria.
+
+## 📦 Instalação
+
+Baixe o instalador da sua plataforma na página de [Releases](https://github.com/fredwilliamtjr/google-keep-desktop/releases):
+
+- **Windows** — rode o `Google Keep Desktop Setup.exe` (cria atalhos na área de trabalho e no menu Iniciar)
+- **macOS** — descompacte o `.zip` e arraste o `Google Keep Desktop.app` pra pasta **Applications**
+- **Linux** — instale o `.deb` (`sudo dpkg -i ...`) ou o `.rpm` (`sudo rpm -i ...`)
+
+> No macOS, na primeira abertura clique com **botão direito → Abrir** caso o Gatekeeper reclame (o app não é assinado com Developer ID).
+
+## ⚙️ Como usar
+
+1. Abra o app — uma janela do Google Keep aparece e um ícone surge na bandeja do sistema
+2. Faça login na sua conta Google normalmente
+3. **Clique no ícone da bandeja** pra mostrar/esconder a janela a qualquer momento
+4. Fechar ou minimizar a janela **não encerra** o app — ele recolhe pra bandeja
+
+Menu de contexto da bandeja (clique com o botão direito no ícone):
+
+| Item | Ação |
+|---|---|
+| **Mostrar Google Keep** | Traz a janela pra frente |
+| **Esconder** | Recolhe a janela pra bandeja |
+| **Recarregar** | Recarrega o Keep (equivale a `F5` / `Ctrl+R`) |
+| **Sair** | Encerra o app de vez |
+
+## 🧱 Arquitetura
+
+```
+google-keep-desktop/
+├── main.js              # Processo principal: janela, tray e ciclo de vida do app
+├── forge.config.js      # Electron Forge — makers (Squirrel/ZIP/deb/rpm) + fuses
+├── package.json         # Metadados, scripts e dependências
+├── icon.{png,ico,icns}  # Ícones por plataforma
+├── icone-macos.jpg      # Ícone colorido 16×16 da barra de menus (macOS)
+└── .vscode/tasks.json   # Tarefas prontas de dev e build
 ```
 
-Windows:
-- Instale o Node pelo site oficial `https://nodejs.org/` ou via `nvm-windows`.
+| Componente | Responsabilidade |
+|---|---|
+| `createWindow()` | Cria a `BrowserWindow` 1200×800, carrega `keep.google.com`, injeta o User-Agent de Chrome, intercepta `F5`/`Ctrl+R` e converte fechar/minimizar em "esconder" |
+| `createTray()` | Monta o `Tray` com menu de contexto (Mostrar/Esconder/Recarregar/Sair) e toggle ao clicar; no macOS escolhe `icone-macos.jpg` → `icon-macos.jpg` → `icon.png` e redimensiona pra 16×16 |
+| Ciclo de vida | Handlers de `before-quit`/`will-quit`/`quit` + sinais (`SIGINT`/`SIGTERM`) garantem que tray e janela sejam destruídos e o processo encerre limpo |
+| `FusesPlugin` | Endurece o binário em tempo de empacotamento (sem `RunAsNode`, só carrega do ASAR, valida integridade) |
 
----
+## 🔨 Build a partir do código
 
-## 🚀 Desenvolvimento
-
-1. Instale as dependências:
+Requisitos:
+- Node.js 18+ (no macOS, recomendado via `brew install node`)
+- npm 9+ (vem com o Node)
 
 ```bash
+git clone https://github.com/fredwilliamtjr/google-keep-desktop.git
+cd google-keep-desktop
 npm ci
 ```
 
-2. Inicie o app em desenvolvimento:
+Rodar em desenvolvimento:
 
 ```bash
 npm start
 ```
 
-O aplicativo abrirá uma janela do Google Keep. O ícone ficará disponível na área de notificação (Windows) ou barra de menus (macOS).
-
----
-
-## 🏗️ Build (Instalador)
-
-- macOS/Linux:
+### Gerar os instaladores
 
 ```bash
+# macOS / Linux
 rm -rf out && npm run make
 ```
 
-- Windows (PowerShell):
-
 ```powershell
+# Windows (PowerShell)
 Remove-Item -Path 'out' -Recurse -Force -ErrorAction SilentlyContinue; npm run make
 ```
 
-Os artefatos ficam em `out/`.
+Os artefatos ficam em `out/`. No macOS o `make` gera binário universal (`x64` + `arm64`) automaticamente.
 
----
+> No VS Code há tarefas prontas em `.vscode/tasks.json`: **"Executar Electron (Dev)"** e **"Limpar e Gerar Executável"**.
 
-## ⚙️ Configuração do Tray (macOS)
+### Trocar o ícone da bandeja (macOS)
 
-- O app tenta usar, nesta ordem, `icone-macos.jpg`, `icon-macos.jpg` e por fim `icon.png`.
-- Tamanho aplicado: 16x16 para manter nitidez na barra do macOS.
-- Se preferir um outro ícone, coloque o arquivo na raiz com um desses nomes e reinicie o app.
+O app procura, nesta ordem: `icone-macos.jpg` → `icon-macos.jpg` → `icon.png`. Coloque seu arquivo na raiz com um desses nomes (transparente e em alta resolução pra ficar nítido a 16×16) e reinicie.
 
-> Dica: Para ícones monocromáticos no macOS, forneça uma imagem com fundo transparente e alta resolução.
+## 🔒 Segurança / Aviso
 
----
+- **Hardening via Fuses**: `RunAsNode` desligado, `OnlyLoadAppFromAsar` e validação de integridade do ASAR ligados.
+- **Sem credenciais armazenadas pelo app**: todo login e sincronização acontecem dentro da sessão do próprio Google Keep — o wrapper não intercepta nem guarda nada.
+- **Assinatura**: não assinado por padrão. Pra distribuição sem fricção, macOS precisaria de Developer ID + notarização e Windows de um certificado de code signing.
+- **Marca registrada**: Google Keep é uma marca do Google LLC. Este é um projeto **não-oficial** que apenas fornece um wrapper desktop para o serviço web.
 
-## 🧰 Scripts úteis
+## 🗺️ Roadmap
 
-- `npm start`: inicia em desenvolvimento
-- `npm run make`: gera instaladores com Electron Forge
-
-No VS Code, há tarefas prontas em `.vscode/tasks.json`:
-- "Executar Electron (Dev)"
-- "Limpar e Gerar Executável" (cross-platform)
-
----
-
-## 🐞 Solução de problemas
-
-- Mensagens sobre certificados no macOS (Chromium) são comuns e não bloqueiam o app.
-- Se o `npm` não for encontrado no macOS, instale via Homebrew: `brew install node`.
-- Se o ícone do Tray ficar distorcido, ajuste a arte (16x16 ou 32x32 para Retina) e reinicie.
-
----
-
-## 🔒 Aviso
-
-Google Keep é uma marca do Google LLC. Este projeto é não-oficial e apenas fornece um wrapper desktop para o serviço web.
-
----
-
-## 📸 Screenshots
-
-<div align="center">
-  <img src="background.png" alt="Screenshot" width="720" />
-</div>
-
----
+- [x] Janela dedicada + ícone na bandeja com mostrar/esconder
+- [x] Login funcional via User-Agent de Chrome
+- [x] Esconder em vez de fechar + encerramento limpo
+- [x] Instaladores para Windows, macOS e Linux via Electron Forge
+- [ ] Atalho global de teclado pra mostrar/esconder a janela
+- [ ] Badge de notificações no ícone da bandeja
+- [ ] Iniciar com o sistema (login item)
+- [ ] Code signing + notarização (distribuir sem aviso do SO)
+- [ ] Arquivo `LICENSE` no repositório
 
 ## 📄 Licença
 
-Distribuído sob a licença MIT. Veja `LICENSE` para mais informações.
+Distribuído sob a licença **MIT**.
 
+---
 
-
-
-
+<div align="center">
+  <sub>Feito com ☕ por <a href="https://github.com/fredwilliamtjr">@fredwilliamtjr</a></sub>
+</div>
