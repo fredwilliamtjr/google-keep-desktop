@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Google Keep Desktop.app">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/make/zip/darwin/universal/Google Keep Desktop.app.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
