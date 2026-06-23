@@ -1,3 +1,5 @@
 /node_modules/
 /out/
 Google Keep Desktop Setup.exe
+# macOS folder metadata
+.DS_Store
